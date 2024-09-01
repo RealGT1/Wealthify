@@ -23,4 +23,6 @@ This project provides a personalized mutual fund recommendation system that anal
 - **Backend**: Flask
 - **APIs**: Used for fetching real-time data and recommendations.
 - **Deployment**: Docker (multi-stage builds), Kubernetes, Jenkins, AWS- EC2,EKS, Argo CD
+- **This repo creates a Jenkins pipeline with GitOps to deploy code into a Kubernetes cluster. CI part is done via Jenkins and CD part via ArgoCD (GitOps) & Jenkins is installed on EC2**
+
 
