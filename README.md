@@ -1,30 +1,26 @@
-## Prerequisites
+# WEALTHIFY : INVESTMENTS AND WEALTH ACCUMULATION 
 
-Before you begin, ensure you have met the following requirements:
-- Docker
-- Kubernetes
-- kubectl
+Empowering you to discover the best mutual funds tailored to your unique investment needs.
 
-## Commands
-- docker compose up --build
+## 🚀 Project Overview
 
-- kubectl apply -f client-deployment.yaml
-- kubectl apply -f client-service.yaml
-- kubectl apply -f server-deployment.yaml
-- kubectl apply -f server-service.yaml
+This project provides a personalized mutual fund recommendation system that analyzes user-specific criteria to suggest the best mutual funds. Whether you are a novice investor or an experienced one, our tool helps you make informed investment decisions.
 
-- kubectl get deployments
-- kubectl get services
+## 📋 Features
 
-- kubectl get pods
+1. **Personalized Mutual Fund Recommendations**  
+   The platform generates personalized mutual fund recommendations based on user-specific criteria such as age, investment amount, risk tolerance, and investment duration. Users receive tailored recommendations that align with their financial goals and preferences, helping them make informed investment decisions.
 
+2. **Real-time Investment Performance Tracking**  
+   Users can track the real-time performance of their investments through the platform. Access to up-to-date data allows users to monitor the performance of their mutual fund holdings and make timely adjustments to their investment strategies if necessary.
 
-- kubectl delete -f client-deployment.yaml
-- kubectl delete -f server-deployment.yaml
-- kubectl apply -f client-deployment.yaml
-- kubectl apply -f server-deployment.yaml
-- http://localhost:31535
+3. **User Education on Mutual Funds and Investments**  
+   The platform offers educational resources and content to enhance users' understanding of mutual funds and investments. Users can access articles, tutorials, and interactive materials that cover topics such as investment basics, risk management, portfolio diversification, and market trends.
+   
+## 🛠️ Technologies Used
 
-
-
+- **Frontend**: React.js
+- **Backend**: Flask
+- **APIs**: Used for fetching real-time data and recommendations.
+- **Deployment**: Docker (multi-stage builds), Kubernetes, Jenkins, AWS- EC2,EKS, Argo CD
 
