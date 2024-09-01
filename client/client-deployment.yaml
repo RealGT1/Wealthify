@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: client
-        image: mf3-client:latest
+        image: Wealthify-client:latest
         imagePullPolicy: Never
         ports:
         - containerPort: 80
