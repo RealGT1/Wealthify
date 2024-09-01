@@ -1,4 +1,4 @@
-# WEALTHIFY : INVESTMENTS AND WEALTH ACCUMULATION 
+# Wealthify: Investments and wealth accumulation
 
 Empowering you to discover the best mutual funds tailored to your unique investment needs.
 
