@@ -3,8 +3,8 @@ pipeline {
 
     environment {
         DOCKER_REGISTRY = 'localhost:5000'
-        CLIENT_IMAGE = 'mf3-client'
-        SERVER_IMAGE = 'mf3-server'
+        CLIENT_IMAGE = 'Wealthify-client'
+        SERVER_IMAGE = 'Wealthify-server'
         K8S_CLIENT_DEPLOYMENT = './client/client-deployment.yaml'
         K8S_SERVER_DEPLOYMENT = './server/server-deployment.yaml'
     }
@@ -13,7 +13,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Checkout code from your GitHub repository
-                git url: 'https://github.com/RealGT1/mf-docker-kubernetes.git', branch: 'main'
+                git url: 'https://github.com/RealGT1/Wealthify.git', branch: 'main'
             }
         }
 
