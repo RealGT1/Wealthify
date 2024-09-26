@@ -2,17 +2,15 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_REGISTRY = 'localhost:5000'
-        CLIENT_IMAGE = 'Wealthify-client'
-        SERVER_IMAGE = 'Wealthify-server'
-        K8S_CLIENT_DEPLOYMENT = './client/client-deployment.yaml'
-        K8S_SERVER_DEPLOYMENT = './server/server-deployment.yaml'
+        DOCKER_REGISTRY = 'https://registry.hub.docker.com'
+        DOCKERHUB_CREDENTIALS = 'dockerhub'  
+        CLIENT_IMAGE = 'shreyas3557/client'
+        SERVER_IMAGE = 'shreyas3557/server'
     }
 
     stages {
         stage('Checkout') {
             steps {
-                // Checkout code from your GitHub repository
                 git url: 'https://github.com/RealGT1/Wealthify.git', branch: 'main'
             }
         }
@@ -20,7 +18,6 @@ pipeline {
         stage('Build Client Docker Image') {
             steps {
                 script {
-                    // Build Client Docker image
                     docker.build("${CLIENT_IMAGE}:latest", "./client")
                 }
             }
@@ -29,73 +26,48 @@ pipeline {
         stage('Build Server Docker Image') {
             steps {
                 script {
-                    // Build Server Docker image
                     docker.build("${SERVER_IMAGE}:latest", "./server")
                 }
             }
         }
 
-        stage('Run Client Tests') {
+        stage('Push Client Image to Docker Hub') {
             steps {
                 script {
-                    // Run your Client tests
-                    docker.image("${CLIENT_IMAGE}:latest").run("--rm", "npm", "test")
-                }
-            }
-        }
-
-        stage('Run Server Tests') {
-            steps {
-                script {
-                    // Run your Server tests
-                    docker.image("${SERVER_IMAGE}:latest").run("--rm", "pytest")
-                }
-            }
-        }
-
-        stage('Push Client Image to Local Registry') {
-            steps {
-                script {
-                    // Push the Client image to your local Docker registry
-                    docker.withRegistry("${DOCKER_REGISTRY}") {
-                        docker.image("${CLIENT_IMAGE}:latest").push()
+                    docker.withRegistry(DOCKER_REGISTRY, DOCKERHUB_CREDENTIALS) {
+                        docker.image("${CLIENT_IMAGE}:latest").push("${env.BUILD_NUMBER}")
                     }
                 }
             }
         }
 
-        stage('Push Server Image to Local Registry') {
+        stage('Push Server Image to Docker Hub') {
             steps {
                 script {
-                    // Push the Server image to your local Docker registry
-                    docker.withRegistry("${DOCKER_REGISTRY}") {
-                        docker.image("${SERVER_IMAGE}:latest").push()
+                    docker.withRegistry(DOCKER_REGISTRY, DOCKERHUB_CREDENTIALS) {
+                        docker.image("${SERVER_IMAGE}:latest").push("${env.BUILD_NUMBER}")
                     }
                 }
             }
         }
-
-        stage('Deploy to Kubernetes') {
+        
+        stage('Trigger ManifestUpdate') {
             steps {
-                script {
-                    // Deploy the Client and Server to Kubernetes
-                    sh "kubectl apply -f ${K8S_CLIENT_DEPLOYMENT}"
-                    sh "kubectl apply -f ${K8S_SERVER_DEPLOYMENT}"
-                }
+                echo "triggering updatemanifest job"
+                build job: 'updatemanifest', parameters: [string(name: 'DOCKERTAG', value: env.BUILD_NUMBER)]
             }
         }
     }
 
     post {
         always {
-            // Clean up Docker resources
             sh 'docker system prune -f'
         }
         success {
-            echo 'Build and Deployment succeeded!'
+            echo 'Build and Push succeeded!'
         }
         failure {
-            echo 'Build or Deployment failed!'
+            echo 'Build or Push failed!'
         }
     }
 }
